@@ -9,7 +9,7 @@ body {
 }
 
 header {
-    background-color: #333;
+    background-color: #000000;
     color: white;
     padding: 1em 0;
     text-align: center;
@@ -88,7 +88,7 @@ main {
 }
 
 .submit-btn:hover {
-    background-color: #0056b3;
+    background-color: #b30000;
     transform: translateY(-2px);
 }.contact-form h1 {
     text-align: center;
@@ -131,7 +131,7 @@ main {
 }
 
 .submit-btn:hover {
-    background-color: #0056b3;
+    background-color: #b40000;
     transform: translateY(-2px);
 }
 
