@@ -13,6 +13,7 @@ header {
     color: white;
     padding: 1em 0;
     text-align: center;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
 }
 
 nav ul {
@@ -30,6 +31,7 @@ nav ul li {
 nav ul li a {
     color: white;
     text-decoration: none;
+    font-size: 18px;
 }
 
 main {
@@ -148,6 +150,7 @@ main {
     color: white;
     padding: 50px 20px;
     text-align: center;
+    border-radius: 25px; /* Rounded corners */
 }
 
 .service-cards {
@@ -170,6 +173,22 @@ main {
     width: 100px;
     height: auto;
     margin-bottom: 10px;
+}
+
+.service-btn {
+    display: inline-block;
+    padding: 10px 10px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.service-btn:hover {
+    background-color: #ff0000;
+    transform: translateY(-2px);
 }
 
 
