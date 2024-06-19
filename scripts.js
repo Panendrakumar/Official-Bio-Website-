@@ -173,35 +173,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('login-form');
-    const signupForm = document.getElementById('signup-form');
-    const signupButton = document.getElementById('signup-button');
-    const showLoginLink = document.getElementById('show-login');
 
-    // Function to show signup form and hide login form
-    function showSignupForm() {
-        loginForm.style.display = 'none';
-        signupForm.style.display = 'block';
-    }
-
-    // Function to show login form and hide signup form
-    function showLoginForm() {
-        signupForm.style.display = 'none';
-        loginForm.style.display = 'block';
-    }
-
-    signupButton.addEventListener('click', function() {
-        showSignupForm();
-    });
-
-    showLoginLink.addEventListener('click', function(e) {
+    loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        showLoginForm();
-    });
-
-    signupForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        // Handle signup form submission logic here
-        // Example: Validate inputs and create new account
-        console.log('Signup form submitted');
+        // Handle login form submission logic here
+        // Example: Validate credentials and perform login action
+        console.log('Login form submitted');
     });
 });
