@@ -35,10 +35,16 @@
                 <label for="message">Message:</label>
                 <textarea id="message" name="message" required></textarea>
                 
-                <button type="submit" class="submit-btn">Submit</button>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="agreement" name="agreement">
+                    <label for="agreement">I agree that I am sure about what i am submitting</label>
+                </div>
+
+                <button type="submit" id="submit-button" disabled>Submit</button>
             </form>
         </section>
     </main>
+    <script src="scripts.js"></script>
     <footer>
         <p>&copy; 2024 Professional Website</p>
     </footer>
