@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>LOGAN 444 YT - Account</title>
+</head>
+<body>
+    <header>
+        <h1>LOGAN 444 YT</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="account">
+        <div class="container">
+            <div class="account-forms">
+                <form action="#" method="POST" id="login-form">
+                    <h2>Login</h2>
+                    <div class="input-field">
+                        <label for="login-email">Email:</label>
+                        <input type="email" id="login-email" name="email" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="login-password">Password:</label>
+                        <input type="password" id="login-password" name="password" required>
+                    </div>
+                    <button type="submit">Login</button>
+                    <button type="button" id="signup-button">Sign Up</button>
+                </form>
+
+                <form action="#" method="POST" id="signup-form" style="display: none;">
+                    <h2>Create an Account</h2>
+                    <div class="input-field">
+                        <label for="signup-name">Name:</label>
+                        <input type="text" id="signup-name" name="name" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="signup-email">Email:</label>
+                        <input type="email" id="signup-email" name="email" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="signup-password">Create Password:</label>
+                        <input type="password" id="signup-password" name="password" required>
+                    </div>
+                    <button type="submit">Create Account</button>
+                    <p class="login-link">Already have an account? <a href="#" id="show-login">Login</a></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+    <footer>
+        <p>&copy; 2024 Logan 444 YT. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
