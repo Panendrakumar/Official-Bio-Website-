@@ -125,9 +125,8 @@
     </header>
     
     <div class="container">
-        <div id="particles-js"></div>
         <div class="signup-form">
-            <form action="#" method="POST" id="signup-form">
+            <form id="signup-form">
                 <h2>Create an Account</h2>
                 <div class="input-field">
                     <label for="signup-name">Name:</label>
@@ -144,11 +143,54 @@
                 <button type="submit">Create Account</button>
                 <p class="login-link">Already have an account? <a href="account.html">Login</a></p>
             </form>
+            <div id="signup-message" style="display: none;">
+                <p>Account created successfully!</p>
+                <p>Redirecting to <a href="account.html">Login page</a>...</p>
+            </div>
         </div>
     </div>
 
     <footer>
         <p>&copy; 2024 Your Company. All rights reserved.</p>
     </footer>
+
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+
+            // Fetch API request to /signup endpoint
+            fetch('http://localhost:3000/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email, password })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Display success message
+                const signupMessage = document.getElementById('signup-message');
+                signupMessage.style.display = 'block';
+
+                // Redirect to login page after 3 seconds
+                setTimeout(() => {
+                    window.location.href = 'account.html';
+                }, 3000);
+            })
+            .catch(error => {
+                console.error('Error creating account:', error);
+                alert('Error creating account. Please try again.');
+            });
+        });
+    </script>
 </body>
 </html>
