@@ -1,38 +1,35 @@
-// server.js
+document.getElementById('signup-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
 
-const express = require('express');
-const bodyParser = require('body-parser');
+    const name = document.getElementById('signup-name').value;
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+    const backendURL = 'https://logan444yt.netlify.app/signup'; // Replace with actual backend URL
 
-// Middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+    fetch(backendURL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Success message
+        console.log('Account created successfully:', data);
+        alert('Account created successfully. Redirecting to login page.');
 
-// Sample database (for demonstration purposes)
-let users = [];
-
-// Route to handle signup
-app.post('/signup', (req, res) => {
-    const { name, email, password } = req.body;
-
-    // Check if email already exists
-    const existingUser = users.find(user => user.email === email);
-    if (existingUser) {
-        return res.status(400).json({ error: 'Email already exists' });
-    }
-
-    // If email doesn't exist, create new user
-    const newUser = { name, email, password };
-    users.push(newUser);
-
-    // In a real application, you would save newUser to your database
-
-    res.status(200).json({ message: 'Account created successfully', user: newUser });
-});
-
-// Start server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+        // Redirect to login page after successful signup
+        window.location.href = 'account.html';
+    })
+    .catch(error => {
+        console.error('Error creating account:', error);
+        alert('Error creating account. Please try again.');
+    });
 });
