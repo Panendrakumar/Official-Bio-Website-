@@ -1,35 +1,52 @@
-document.getElementById('signup-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
+// server.js
 
-    const name = document.getElementById('signup-name').value;
-    const email = document.getElementById('signup-email').value;
-    const password = document.getElementById('signup-password').value;
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const User = require('./models/User');
 
-    const backendURL = 'https://logan444yt.netlify.app/signup'; // Replace with actual backend URL
+const app = express();
+const port = process.env.PORT || 3000;
+const mongoURI = 'mongodb+srv://panendra:<password>@atlascluster.losyfcv.mongodb.net/'; // Replace with your MongoDB connection URI
 
-    fetch(backendURL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, password })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        // Success message
-        console.log('Account created successfully:', data);
-        alert('Account created successfully. Redirecting to login page.');
+// Connect to MongoDB
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.log(err));
 
-        // Redirect to login page after successful signup
-        window.location.href = 'account.html';
-    })
-    .catch(error => {
-        console.error('Error creating account:', error);
-        alert('Error creating account. Please try again.');
+// Bodyparser middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Route to handle user signup
+app.post('/signup', (req, res) => {
+  const { name, email, password } = req.body;
+
+  // Simple validation
+  if (!name || !email || !password) {
+    return res.status(400).json({ msg: 'Please enter all fields' });
+  }
+
+  // Check for existing user
+  User.findOne({ email })
+    .then(user => {
+      if (user) return res.status(400).json({ msg: 'User already exists' });
+
+      const newUser = new User({
+        name,
+        email,
+        password,
+      });
+
+      // Create salt & hash for password before saving in DB (bcrypt recommended)
+
+      newUser.save()
+        .then(user => res.json({ user }))
+        .catch(err => console.log(err));
     });
 });
+
+app.listen(port, () => console.log(`Server running on port ${port}`));
