@@ -181,3 +181,85 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Login form submitted');
     });
 });
+
+
+// script.js
+
+document.addEventListener('DOMContentLoaded', function() {
+    const signupForm = document.getElementById('signup-form');
+    const signupEmailInput = document.getElementById('signup-email');
+    const emailError = document.getElementById('email-error');
+
+    signupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Perform additional validation or submission logic here
+        console.log('Signup form submitted');
+    });
+
+    signupEmailInput.addEventListener('input', function() {
+        const email = signupEmailInput.value.trim();
+        if (email !== '') {
+            // Basic email format validation
+            if (!isValidEmail(email)) {
+                emailError.textContent = 'Please enter a valid email address.';
+            } else {
+                emailError.textContent = '';
+            }
+        } else {
+            emailError.textContent = '';
+        }
+    });
+
+    // Function to validate email format
+    function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+});
+
+// script.js
+
+document.addEventListener('DOMContentLoaded', function() {
+    const signupForm = document.getElementById('signup-form');
+    const sendOtpBtn = document.getElementById('send-otp-btn');
+    const otpField = document.getElementById('otp-field');
+    const signupBtn = document.getElementById('signup-btn');
+    let otpSent = ''; // To store the OTP sent to the user
+
+    sendOtpBtn.addEventListener('click', function() {
+        const email = document.getElementById('signup-email').value.trim();
+
+        // Simulate sending OTP to the email (replace with your actual backend logic)
+        otpSent = generateOTP(); // Generate OTP
+        console.log('OTP:', otpSent); // For testing purposes, log OTP to console
+
+        // Display OTP field and signup button
+        otpField.style.display = 'block';
+        signupBtn.style.display = 'inline-block';
+    });
+
+    signupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Validate OTP and proceed with account creation
+        const enteredOTP = document.getElementById('signup-otp').value.trim();
+
+        if (enteredOTP === otpSent) {
+            // OTP verification successful, proceed with account creation
+            const name = document.getElementById('signup-name').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value;
+
+            // Perform account creation (send data to backend for server-side processing)
+            // Example: sendAccountCreationRequest(name, email, password);
+            alert('Account created successfully!');
+            // Redirect or perform other actions after account creation
+        } else {
+            alert('Invalid OTP. Please enter the correct OTP.');
+        }
+    });
+
+    function generateOTP() {
+        // Generate a random 6-digit OTP for demo purposes
+        return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+});
