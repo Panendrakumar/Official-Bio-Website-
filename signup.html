@@ -22,8 +22,31 @@
             text-align: center;
         }
 
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+        }
+
+        nav ul li a:hover {
+            background-color: #333;
+            border-radius: 4px;
+        }
+
         .container {
-            max-width: 600px; /* Increased max-width for the container */
+            max-width: 600px;
             margin: 20px auto;
             background-color: #fff;
             padding: 20px;
@@ -41,7 +64,7 @@
         }
 
         .input-field {
-            margin-bottom: 0px;
+            margin-bottom: 20px;
             text-align: left;
         }
 
@@ -53,7 +76,8 @@
 
         .input-field input[type="text"],
         .input-field input[type="email"],
-        .input-field input[type="password"] {
+        .input-field input[type="password"],
+        .input-field input[type="text"]#signup-otp {
             width: calc(100% - 20px);
             padding: 10px;
             font-size: 16px;
@@ -64,12 +88,14 @@
 
         .input-field input[type="text"]:focus,
         .input-field input[type="email"]:focus,
-        .input-field input[type="password"]:focus {
+        .input-field input[type="password"]:focus,
+        .input-field input[type="text"]#signup-otp:focus {
             outline: none;
             border-color: #5c5c5c;
         }
 
-        .signup-form button {
+        .signup-form button,
+        .signup-form button#generate-otp {
             background-color: #0059ff;
             color: white;
             padding: 12px 20px;
@@ -80,7 +106,8 @@
             transition: background-color 0.3s ease;
         }
 
-        .signup-form button:hover {
+        .signup-form button:hover,
+        .signup-form button#generate-otp:hover {
             background-color: #033092;
         }
 
@@ -103,14 +130,29 @@
             background-color: #000000;
             color: #fff;
             text-align: center;
-            padding: 1px 0;
+            padding: 10px 0;
             position: fixed;
             bottom: 0;
             width: 100%;
         }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .otp-field {
+            display: none;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
+    <div id="particles-js"></div>
     <header>
         <h1>Sign Up</h1>
         <nav>
@@ -126,19 +168,24 @@
     
     <div class="container">
         <div class="signup-form">
-            <form id="signup-form">
-                <h2>Create an Account</h2>
+            <form id="signup-form" aria-labelledby="form-title">
+                <h2 id="form-title">Create an Account</h2>
                 <div class="input-field">
                     <label for="signup-name">Name:</label>
-                    <input type="text" id="signup-name" name="name" required>
+                    <input type="text" id="signup-name" name="name" required aria-required="true">
                 </div>
                 <div class="input-field">
                     <label for="signup-email">Email:</label>
-                    <input type="email" id="signup-email" name="email" required>
+                    <input type="email" id="signup-email" name="email" required aria-required="true">
                 </div>
                 <div class="input-field">
                     <label for="signup-password">Create Password:</label>
-                    <input type="password" id="signup-password" name="password" required>
+                    <input type="password" id="signup-password" name="password" required aria-required="true">
+                </div>
+                <button type="button" id="generate-otp">Generate OTP</button>
+                <div class="input-field otp-field" id="otp-field">
+                    <label for="signup-otp">Enter OTP:</label>
+                    <input type="text" id="signup-otp" name="otp" required aria-required="true">
                 </div>
                 <button type="submit">Create Account</button>
                 <p class="login-link">Already have an account? <a href="account.html">Login</a></p>
@@ -155,20 +202,50 @@
     </footer>
 
     <script>
+        particlesJS.load('particles-js', 'particles.json', function() {
+            console.log('Particles.js config loaded');
+        });
+
+        document.getElementById('generate-otp').addEventListener('click', function() {
+            const email = document.getElementById('signup-email').value;
+
+            fetch('http://localhost:3000/generate-otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('OTP sent to your email.');
+                document.getElementById('otp-field').style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error generating OTP:', error);
+                alert('Error generating OTP. Please try again.');
+            });
+        });
+
         document.getElementById('signup-form').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent default form submission
 
             const name = document.getElementById('signup-name').value;
             const email = document.getElementById('signup-email').value;
             const password = document.getElementById('signup-password').value;
+            const otp = document.getElementById('signup-otp').value;
 
-            // Fetch API request to /signup endpoint
             fetch('http://localhost:3000/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ name, email, password })
+                body: JSON.stringify({ name, email, password, otp })
             })
             .then(response => {
                 if (!response.ok) {
